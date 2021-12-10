@@ -67,6 +67,8 @@
     "port-for-local-kiwix-server-setting":"Port for local Kiwix server",
     "zoom-level-setting":"Default zoom level",
     "download-directory-setting":"Download directory",
+    "monitor-directory-setting":"Monitor directory",
+    "monitor-directory-default":"Not set",
     "reset":"Reset",
     "browse":"Browse",
     "about-kiwix-desktop-title":"Kiwix Desktop",
@@ -120,5 +122,9 @@
     "open-link-in-web-browser":"Open link in web browser",
     "download-dir-dialog-title":"Are you sure you want to change the download directory?",
     "download-dir-dialog-msg":"The new download directory path will be:\n{{DIRECTORY}}",
+    "monitor-dir-dialog-title":"Are you sure you want to change the monitor directory?",
+    "monitor-dir-dialog-msg":"The new monitor directory path will be:\n{{DIRECTORY}}",
+    "monitor-reset-dir-dialog-title":"Are you sure you want to reset the monitor directory?",
+    "monitor-reset-dir-dialog-msg":"This will stop checking the monitor directory for new zim files.",
     "invalid-port":"Invalid port"
 }

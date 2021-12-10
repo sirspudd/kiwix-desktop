@@ -30,6 +30,8 @@ public slots:
     qreal getZoomFactor() { return m_zoomFactor; };
     bool setDownloadDir(QString downloadDir);
     QString getDownloadDir() { return m_downloadDir; }
+    bool setMonitorDir(QString monitorDir);
+    QString getMonitorDir() { return m_monitorDir; }
 private:
     void initSettings();
 
@@ -37,6 +39,7 @@ signals:
     void portChanged(int port);
     void zoomChanged(qreal zoomFactor);
     void downloadDirChanged(QString downloadDir);
+    void monitorDirChanged(QString monitorDir);
 
 private:
     QSettings m_settings;
@@ -44,6 +47,7 @@ private:
     int m_kiwixServerPort;
     qreal m_zoomFactor;
     QString m_downloadDir;
+    QString m_monitorDir;
 };
 
 #endif // SETTINGSMANAGER_H

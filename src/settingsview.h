@@ -11,17 +11,20 @@ class SettingsView : public QWidget
 public:
     SettingsView(QWidget *parent = nullptr);
     ~SettingsView(){};
-    void init(int port, int zoomPercent, const QString &dir);
+    void init(int port, int zoomPercent, const QString &downloadDir, const QString &monitorDir);
 public Q_SLOTS:
     void resetDownloadDir();
     void browseDownloadDir();
+    void browseMonitorDir();
+    void resetMonitorDir();
     void setZoom(int zoomPercent);
     void onDownloadDirChanged(const QString &dir);
+    void onMonitorDirChanged(const QString &dir);
     void onZoomChanged(qreal zoomFactor);
     void onServerPortChanged(int port);
     void setKiwixServerPort(int port);
 private:
-    bool confirmDialogDownloadDir(const QString& dir);
+    bool confirmDirDialog(const QString& dir, QString messageText, QString messageTitle);
 
     Ui::Settings *ui;
 };

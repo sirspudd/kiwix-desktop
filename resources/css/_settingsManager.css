@@ -23,8 +23,8 @@ QLabel#settingsLabel {
     font-weight: bold;
 }
 QSpinBox,
-QLabel#downloadDirPath {
-    font: bold 12pt "Cantarell";
+QLabel#downloadDirPath, #monitorDirPath {
+    font: bold 12pt;
 }
 QPushButton {
     background-color: white;
