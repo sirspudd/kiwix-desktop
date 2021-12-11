@@ -126,5 +126,6 @@
     "monitor-dir-dialog-msg":"The new monitor directory path will be:\n{{DIRECTORY}}",
     "monitor-reset-dir-dialog-title":"Are you sure you want to reset the monitor directory?",
     "monitor-reset-dir-dialog-msg":"This will stop checking the monitor directory for new zim files.",
+    "monitor-directory-invalid":"The chosen directory doesn't contain a library.xml file.",
     "invalid-port":"Invalid port"
 }

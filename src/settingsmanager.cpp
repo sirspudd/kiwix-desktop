@@ -88,5 +88,5 @@ void SettingsManager::initSettings()
     m_kiwixServerPort = m_settings.value("localKiwixServer/port", 8181).toInt();
     m_zoomFactor = m_settings.value("view/zoomFactor", 1).toDouble();
     m_downloadDir = m_settings.value("download/dir", QString::fromStdString(kiwix::getDataDirectory())).toString();
-    m_monitorDir = m_settings.value("monitor/dir", QString("")).toString();
+    m_monitorDir = m_settings.value("monitor/dir", QString()).toString();
 }

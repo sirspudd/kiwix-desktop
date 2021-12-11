@@ -120,6 +120,19 @@ void Library::save()
     m_library.writeBookmarksToFile(kiwix::appendToDirectory(m_libraryDirectory.toStdString(), "library.bookmarks.xml"));
 }
 
+bool Library::reloadLibrary(std::vector<std::string> &paths)
+{
+    auto manipulator = LibraryManipulator(this);
+    auto manager = kiwix::Manager(&manipulator);
+    try {
+          manager.reload(paths);
+          emit(booksChanged());
+          return true;
+    } catch ( const std::runtime_error& err ) {
+          return false;
+    }
+}
+
 const kiwix::Book &Library::getBookById(QString id) const
 {
     return m_library.getBookById(id.toStdString());
