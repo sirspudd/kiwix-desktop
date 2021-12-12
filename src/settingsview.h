@@ -16,7 +16,7 @@ public Q_SLOTS:
     void resetDownloadDir();
     void browseDownloadDir();
     void browseMonitorDir();
-    void resetMonitorDir();
+    void clearMonitorDir();
     void setZoom(int zoomPercent);
     void onDownloadDirChanged(const QString &dir);
     void onMonitorDirChanged(const QString &dir);

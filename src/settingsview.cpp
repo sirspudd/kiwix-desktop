@@ -18,7 +18,7 @@ SettingsView::SettingsView(QWidget *parent)
     connect(ui->browseButton, &QPushButton::clicked, this, &SettingsView::browseDownloadDir);
     connect(ui->resetButton, &QPushButton::clicked, this, &SettingsView::resetDownloadDir);
     connect(ui->monitorBrowse, &QPushButton::clicked, this, &SettingsView::browseMonitorDir);
-    connect(ui->monitorReset, &QPushButton::clicked, this, &SettingsView::resetMonitorDir);
+    connect(ui->monitorClear, &QPushButton::clicked, this, &SettingsView::clearMonitorDir);
     connect(KiwixApp::instance()->getSettingsManager(), &SettingsManager::downloadDirChanged, this, &SettingsView::onDownloadDirChanged);
     connect(KiwixApp::instance()->getSettingsManager(), &SettingsManager::monitorDirChanged, this, &SettingsView::onMonitorDirChanged);
     connect(KiwixApp::instance()->getSettingsManager(), &SettingsManager::zoomChanged, this, &SettingsView::onZoomChanged);
@@ -30,8 +30,14 @@ SettingsView::SettingsView(QWidget *parent)
     ui->monitorDirLabel->setText(gt("monitor-directory-setting"));
     ui->resetButton->setText(gt("reset"));
     ui->browseButton->setText(gt("browse"));
-    ui->monitorReset->setText(gt("reset"));
+    ui->monitorClear->setText(gt("clear"));
+    auto monitorDir = KiwixApp::instance()->getSettingsManager()->getMonitorDir();
+    if(monitorDir == QString()) {
+        ui->monitorClear->hide();
+    }
     ui->monitorBrowse->setText(gt("browse"));
+    ui->monitorHelp->setText("<sup><b>?</b></sup>");
+    ui->monitorHelp->setToolTip(gt("monitor-directory-tooltip"));
 }
 void SettingsView::init(int port, int zoomPercent, const QString &downloadDir, const QString &monitorDir)
 {
@@ -105,6 +111,7 @@ void SettingsView::browseMonitorDir()
     paths.push_back(path);
     if (KiwixApp::instance()->getLibrary()->reloadLibrary(paths) && confirmDirDialog(dir, gt("monitor-dir-dialog-msg"), gt("monitor-dir-dialog-title"))) {
         KiwixApp::instance()->getSettingsManager()->setMonitorDir(dir);
+        ui->monitorClear->show();
     } else {
         QMessageBox msgBox;
         msgBox.setText(gt("monitor-directory-invalid"));
@@ -112,14 +119,11 @@ void SettingsView::browseMonitorDir()
     }
 }
 
-void SettingsView::resetMonitorDir()
+void SettingsView::clearMonitorDir()
 {
     auto dir = QString();
-    const auto &monitorDir = KiwixApp::instance()->getSettingsManager()->getMonitorDir();
-    if (dir == monitorDir) {
-        return;
-    }
-    if (confirmDirDialog(dir, gt("monitor-reset-dir-dialog-msg"), gt("monitor-reset-dir-dialog-title"))) {
+    if (confirmDirDialog(dir, gt("monitor-clear-dir-dialog-msg"), gt("monitor-clear-dir-dialog-title"))) {
+        ui->monitorClear->hide();
         KiwixApp::instance()->getSettingsManager()->setMonitorDir(dir);
     }
 }
