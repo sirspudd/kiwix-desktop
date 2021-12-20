@@ -144,6 +144,10 @@ ZimView* TabBar::createNewTab(bool setCurrent, bool adjacentToCurrentTab)
     if (setCurrent) {
         setCurrentIndex(index);
     }
+
+    connect(tab, &ZimView::webActionEnabledChanged,
+            this, &TabBar::when_zimview_history_action_changed);
+
     return tab;
 }
 
@@ -293,17 +297,20 @@ void TabBar::onCurrentChanged(int index)
     QWidget *w = mp_stackedWidget->widget(index);
 
     if (qobject_cast<SettingsView*>(w)) {
+        // Settings tab became active
         emit webActionEnabledChanged(QWebEnginePage::Back, false);
         emit webActionEnabledChanged(QWebEnginePage::Forward, false);
         emit libraryPageDisplayed(false);
         QTimer::singleShot(0, [=](){emit currentTitleChanged("");});
     } else if (auto zv = qobject_cast<ZimView*>(w)) {
+        // Some of zim files tab became active
         auto view = zv->getWebView();
         emit webActionEnabledChanged(QWebEnginePage::Back, view->isWebActionEnabled(QWebEnginePage::Back));
         emit webActionEnabledChanged(QWebEnginePage::Forward, view->isWebActionEnabled(QWebEnginePage::Forward));
         emit libraryPageDisplayed(false);
         QTimer::singleShot(0, [=](){emit currentTitleChanged(view->title());});
     } else if (qobject_cast<ContentManagerView*>(w)) {
+        // the Library tab became active
         emit webActionEnabledChanged(QWebEnginePage::Back, false);
         emit webActionEnabledChanged(QWebEnginePage::Forward, false);
         emit libraryPageDisplayed(true);
@@ -341,6 +348,16 @@ void TabBar::on_webview_titleChanged(const QString& title)
 
     if (currentZimView() == tab)
         emit currentTitleChanged(title);
+}
+
+void TabBar::when_zimview_history_action_changed(QWebEnginePage::WebAction action, bool enabled)
+{
+    ZimView *zv = qobject_cast<ZimView*>(sender());
+
+    if (!zv || zv != this->currentZimView())
+        return;
+
+    emit webActionEnabledChanged(action, enabled);
 }
 
 void TabBar::mousePressEvent(QMouseEvent *event)

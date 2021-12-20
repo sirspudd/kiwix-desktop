@@ -7,7 +7,6 @@
 #include "kiwix/downloader.h"
 #include <kiwix/kiwixserve.h>
 #include "kprofile.h"
-#include "urlschemehandler.h"
 #include "settingsmanager.h"
 #include "translation.h"
 
@@ -73,7 +72,7 @@ public:
     MainWindow* getMainWindow() { return mp_mainWindow; }
     ContentManager* getContentManager() { return mp_manager; }
     kiwix::Downloader* getDownloader() { return mp_downloader; }
-    TabBar* getTabWidget() { return mp_tabWidget; }
+    TabBar* getTabWidget() { return getMainWindow()->getTabBar(); }
     QAction* getAction(Actions action);
     QString getLibraryDirectory() { return m_libraryDirectory; };
     kiwix::Server* getLocalServer() { return &m_server; }
@@ -81,9 +80,6 @@ public:
     QString getText(const QString &key) { return m_translation.getText(key); };
 
     bool isCurrentArticleBookmarked();
-
-signals:
-    void currentTitleChanged(const QString& title);
 
 public slots:
     void openZimFile(const QString& zimfile="");
@@ -107,7 +103,6 @@ private:
     kiwix::Downloader* mp_downloader;
     ContentManager* mp_manager;
     MainWindow* mp_mainWindow;
-    TabBar* mp_tabWidget;
     QErrorMessage* mp_errorDialog;
     kiwix::UpdatableNameMapper m_nameMapper;
     kiwix::Server m_server;

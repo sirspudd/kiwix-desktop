@@ -46,9 +46,6 @@ public:
     QMenu* getHistoryBackMenu() const;
     QMenu* getHistoryForwardMenu() const;
 
-public slots:
-    void onUrlChanged(const QUrl& url);
-
 signals:
     void iconChanged(const QIcon& icon);
     void zimIdChanged(const QString& zimId);
@@ -65,6 +62,7 @@ protected:
     QString m_linkHovered;
 
 private slots:
+    void onUrlChanged(const QUrl& url);
     void gotoTriggeredHistoryItemAction();
 
 private:

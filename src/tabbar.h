@@ -55,8 +55,6 @@ signals:
     void currentTitleChanged(const QString& title);
 
 public slots:
-    void closeTab(int index);
-    void onCurrentChanged(int index);
     void fullScreenRequested(QWebEngineFullScreenRequest request);
     void on_webview_titleChanged(const QString& title);
 
@@ -65,9 +63,12 @@ private:
     QScopedPointer<FullScreenWindow> m_fullScreenWindow;
 
     void setSelectionBehaviorOnRemove(int index);
+    void closeTab(int index);
 
 private slots:
     void onTabMoved(int from, int to);
+    void onCurrentChanged(int index);
+    void when_zimview_history_action_changed(QWebEnginePage::WebAction action, bool enabled);
 };
 
 #endif // TABWIDGET_H
