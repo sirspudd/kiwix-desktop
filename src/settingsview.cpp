@@ -106,12 +106,10 @@ void SettingsView::browseMonitorDir()
     if (dir == monitorDir || dir.isEmpty()) {
         return;
     }
-    std::vector<std::string> paths;
-    std::string path = dir.toStdString() + "/library.xml";
-    paths.push_back(path);
-    if (KiwixApp::instance()->getLibrary()->reloadLibrary(paths) && confirmDirDialog(dir, gt("monitor-dir-dialog-msg"), gt("monitor-dir-dialog-title"))) {
+    if (confirmDirDialog(dir, gt("monitor-dir-dialog-msg"), gt("monitor-dir-dialog-title"))) {
         KiwixApp::instance()->getSettingsManager()->setMonitorDir(dir);
         ui->monitorClear->show();
+        KiwixApp::instance()->getLibrary()->loadMonitorDir(dir);
     } else {
         QMessageBox msgBox;
         msgBox.setText(gt("monitor-directory-invalid"));

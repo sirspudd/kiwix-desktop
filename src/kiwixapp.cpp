@@ -14,6 +14,7 @@
 #include <QPrintDialog>
 #include <thread>
 #include <QMessageBox>
+#include <QtConcurrent/QtConcurrentRun>
 
 ////////////////////////////////////////////////////////////////////////////////
 // KiwixApp
@@ -51,6 +52,12 @@ KiwixApp::KiwixApp(int& argc, char *argv[])
     QFontDatabase::addApplicationFont(":/fonts/Selawik/selawksl.ttf");
     QFontDatabase::addApplicationFont(":/fonts/Selawik/selawk.ttf");
     setFont(QFont("Selawik"));
+    QMutex mutex;
+    mutex.lock();
+    QFuture<void> future = QtConcurrent::run( [=]() {
+        m_library.loadMonitorDir(KiwixApp::instance()->getSettingsManager()->getMonitorDir());
+    });
+    mutex.unlock();
 }
 
 void KiwixApp::init()

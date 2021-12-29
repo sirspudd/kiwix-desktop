@@ -120,17 +120,22 @@ void Library::save()
     m_library.writeBookmarksToFile(kiwix::appendToDirectory(m_libraryDirectory.toStdString(), "library.bookmarks.xml"));
 }
 
-bool Library::reloadLibrary(std::vector<std::string> &paths)
+void Library::loadMonitorDir(QString dir)
 {
     auto manipulator = LibraryManipulator(this);
     auto manager = kiwix::Manager(&manipulator);
-    try {
-          manager.reload(paths);
-          emit(booksChanged());
-          return true;
-    } catch ( const std::runtime_error& err ) {
-          return false;
+    std::vector<std::string> paths;
+    QDirIterator it(dir, {"*.zim"}, QDir::Files);
+    QString fullBookPath;
+    while (it.hasNext()) {
+        fullBookPath = it.next();
+        if(!manager.addBookFromPath(fullBookPath.toStdString())) {
+            qWarning()<<"Couldn't add "<<fullBookPath<<" in the library.";
+        } else {
+            emit(booksChanged());
+        }
     }
+    save();
 }
 
 const kiwix::Book &Library::getBookById(QString id) const
