@@ -10,6 +10,7 @@
 #include <QUrl>
 #include <QDir>
 #include <QStorageInfo>
+#include <QMessageBox>
 
 ContentManager::ContentManager(Library* library, kiwix::Downloader* downloader, QObject *parent)
     : QObject(parent),
@@ -120,7 +121,15 @@ QStringList ContentManager::getBookInfos(QString id, const QStringList &keys)
 void ContentManager::openBook(const QString &id)
 {
     QUrl url("zim://"+id+".zim/");
-    KiwixApp::instance()->openUrl(url, true);
+    try {
+        KiwixApp::instance()->openUrl(url, true);
+    } catch (const std::exception& e) {
+        QMessageBox msgBox;
+        msgBox.setText(gt("zim-open-fail"));
+        msgBox.exec();
+        mp_library->removeBookFromLibraryById(id);
+        emit(booksChanged());
+    }
 }
 
 #define ADD_V(KEY, METH) {if(key==KEY) {values.append(QString::fromStdString((d->METH()))); continue;}}
