@@ -156,7 +156,6 @@ void TabBar::openUrl(const QUrl& url, bool newTab)
     try {
         webView->setUrl(url);
     } catch (const std::exception& e) {
-        closeTab(currentIndex());
         throw;
     }
 }

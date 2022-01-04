@@ -124,11 +124,22 @@ void ContentManager::openBook(const QString &id)
     try {
         KiwixApp::instance()->openUrl(url, true);
     } catch (const std::exception& e) {
-        QMessageBox msgBox;
-        msgBox.setText(gt("zim-open-fail"));
+        auto tabBar = KiwixApp::instance()->getTabWidget();
+        tabBar->closeTab(1);
+        auto text = gt("zim-open-fail-text");
+        QStringList keys = {"path"};
+        text = text.replace("{{ZIM}}", getBookInfos(id, keys)[0]);
+        QMessageBox msgBox(
+            QMessageBox::Warning, //Icon
+            gt("zim-open-fail-title"), //Title
+            text, //Text
+            QMessageBox::Ok //Buttons
+        );
         msgBox.exec();
         mp_library->removeBookFromLibraryById(id);
+        tabBar->setCurrentIndex(0);
         emit(booksChanged());
+        return;
     }
 }
 
