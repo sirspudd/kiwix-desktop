@@ -48,6 +48,11 @@ QString Library::openBookFromPath(const QString &zimPath)
 
     kiwix::Manager manager(&m_library);
     auto id =  manager.addBookFromPathAndGetId(zimPath.toStdString());
+    if (id == "") {
+        auto text = gt("zim-open-fail-text");
+        text = text.replace("{{ZIM}}", zimPath);
+        throw std::invalid_argument(text.toStdString());
+    }
     save();
     emit(booksChanged());
     return QString::fromStdString(id);

@@ -176,7 +176,7 @@ void KiwixApp::openZimFile(const QString &zimfile)
     try {
         zimId = m_library.openBookFromPath(validZimFile);
     } catch (const std::exception& e) {
-        showMessage("Cannot open " + validZimFile + ": \n" + e.what());
+        showMessage(e.what());
         return;
     }
     openUrl(QUrl("zim://"+zimId+".zim/"));
