@@ -85,6 +85,7 @@ public:
     SettingsManager* getSettingsManager() { return &m_settingsManager; };
     SideBarType getSideType() { return m_currentSideType; }
     QString getText(const QString &key) { return m_translation.getText(key); };
+    QFileSystemWatcher* getWatcher() { return &m_watcher; };
 
     bool isCurrentArticleBookmarked();
 
@@ -121,6 +122,7 @@ private:
     kiwix::UpdatableNameMapper m_nameMapper;
     kiwix::Server m_server;
     Translation m_translation;
+    QFileSystemWatcher m_watcher;
 
     QAction*     mpa_actions[MAX_ACTION];
 

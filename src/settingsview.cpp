@@ -110,6 +110,7 @@ void SettingsView::browseMonitorDir()
         KiwixApp::instance()->getSettingsManager()->setMonitorDir(dir);
         ui->monitorClear->show();
         KiwixApp::instance()->getLibrary()->loadMonitorDir(dir);
+        KiwixApp::instance()->getWatcher()->addPath(dir);
     } else {
         QMessageBox msgBox;
         msgBox.setText(gt("monitor-directory-invalid"));

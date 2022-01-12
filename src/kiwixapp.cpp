@@ -52,12 +52,6 @@ KiwixApp::KiwixApp(int& argc, char *argv[])
     QFontDatabase::addApplicationFont(":/fonts/Selawik/selawksl.ttf");
     QFontDatabase::addApplicationFont(":/fonts/Selawik/selawk.ttf");
     setFont(QFont("Selawik"));
-    QMutex mutex;
-    mutex.lock();
-    QFuture<void> future = QtConcurrent::run( [=]() {
-        m_library.loadMonitorDir(KiwixApp::instance()->getSettingsManager()->getMonitorDir());
-    });
-    mutex.unlock();
 }
 
 void KiwixApp::init()
@@ -102,6 +96,19 @@ void KiwixApp::init()
             this->openZimFile(message);
         }
     });
+    connect(&m_watcher, &QFileSystemWatcher::directoryChanged, this, [=](QString monitorDir) {
+        m_library.loadMonitorDir(monitorDir);
+    });
+    QMutex mutex;
+    mutex.lock();
+    QFuture<void> future = QtConcurrent::run( [=]() {
+        QString monitorDir = KiwixApp::instance()->getSettingsManager()->getMonitorDir();
+        if(monitorDir != "") {
+            m_library.loadMonitorDir(monitorDir);
+            m_watcher.addPath(monitorDir);
+        }
+    });
+    mutex.unlock();
 }
 
 KiwixApp::~KiwixApp()
