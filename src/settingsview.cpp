@@ -36,7 +36,7 @@ SettingsView::SettingsView(QWidget *parent)
         ui->monitorClear->hide();
     }
     ui->monitorBrowse->setText(gt("browse"));
-    ui->monitorHelp->setText("<sup><b>?</b></sup>");
+    ui->monitorHelp->setText("<b>?</b>");
     ui->monitorHelp->setToolTip(gt("monitor-directory-tooltip"));
 }
 void SettingsView::init(int port, int zoomPercent, const QString &downloadDir, const QString &monitorDir)
