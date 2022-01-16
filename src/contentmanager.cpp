@@ -127,8 +127,7 @@ void ContentManager::openBook(const QString &id)
         auto tabBar = KiwixApp::instance()->getTabWidget();
         tabBar->closeTab(1);
         auto text = gt("zim-open-fail-text");
-        QStringList keys = {"path"};
-        text = text.replace("{{ZIM}}", getBookInfos(id, keys)[0]);
+        text = text.replace("{{ZIM}}", QString::fromStdString(mp_library->getBookById(id).getPath()));
         QMessageBox msgBox(
             QMessageBox::Warning, //Icon
             gt("zim-open-fail-title"), //Title

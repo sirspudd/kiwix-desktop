@@ -153,11 +153,7 @@ void TabBar::openUrl(const QUrl& url, bool newTab)
         webView = createNewTab(true, true)->getWebView();
     }
     QUITIFNULL(webView);
-    try {
-        webView->setUrl(url);
-    } catch (const std::exception& e) {
-        throw;
-    }
+    webView->setUrl(url);
 }
 
 void TabBar::setTitleOf(const QString& title, ZimView* tab)
